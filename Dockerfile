@@ -1,16 +1,30 @@
 FROM ubuntu:18.04
 
-RUN apt-get update && apt-get upgrade
+RUN apt update && apt install -y build-essential unzip git curl wget zip
 
-RUN apt-get install -y wget yum dpkg
+RUN apt-get install -y wget yum dpkg unzip git curl wget zip
 
-# INSTALL JAVA, NODEJS, NPM
-RUN apt-get install -y openjdk-8-jdk nodejs npm
+RUN apt-get update &&\
+	apt-get upgrade -y &&\
+    apt-get install -y  software-properties-common
 
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
-RUN export JAVA_HOME
+# JS
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN apt-get install -y nodejs
+RUN npm install -g npm@latest
 
-## INSTALL SBT
-RUN wget www.scala-lang.org/files/archive/scala-2.12.13.deb
-RUN dpkg -i scala*.deb
+RUN useradd -ms /bin/bash karolkoson
+RUN adduser karolkoson sudo
 
+EXPOSE 9000
+
+USER karolkoson
+WORKDIR /home/karolkoson/
+RUN curl -s "https://get.sdkman.io" | bash
+RUN chmod a+x "/home/karolkoson/.sdkman/bin/sdkman-init.sh"
+RUN bash -c "source /home/karolkoson/.sdkman/bin/sdkman-init.sh && sdk install java 8.0.272.hs-adpt"
+RUN bash -c "source /home/karolkoson/.sdkman/bin/sdkman-init.sh && sdk install sbt 1.4.8"
+RUN bash -c "source /home/karolkoson/.sdkman/bin/sdkman-init.sh && sdk install scala 2.12.13"
+
+RUN mkdir ebiznes
+WORKDIR /home/karolkoson/ebiznes/

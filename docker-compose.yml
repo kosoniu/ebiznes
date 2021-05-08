@@ -1,0 +1,10 @@
+version: '3'
+services:
+  backend:
+    build: .
+    ports:
+      - localhost:9000
+    volumes:
+      - C:\Projects\ebiznes
+    working_dir: C:\Projects\ebiznes
+    command: bash -c "source /c/Users/ngdk78/.sdkman/bin/sdkman-init.sh && sbt run"
