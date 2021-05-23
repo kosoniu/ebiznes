@@ -3,19 +3,36 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           controllers.HomeController.index
-GET     /addproduct                 controllers.HomeController.addProduct
-POST    /addproducthandle           controllers.HomeController.addProductHandle
-GET     /updateproduct/:id          controllers.HomeController.updateProduct(id: Long)
-POST    /updateproducthandle        controllers.HomeController.updateProductHandle
+GET     /                           controllers.RaceController.index
 
-GET     /products                   controllers.HomeController.getProducts
-GET     /product/:id                controllers.HomeController.getProduct(id: Long)
-GET     /delete/:id                 controllers.HomeController.delete(id: Long)
-# An example controller showing how to use dependency injection
-GET     /count                      controllers.CountController.count
-# An example controller showing how to write asynchronous code
-GET     /message                    controllers.AsyncController.message
+# races
+GET     /races                   controllers.RaceController.getAll
+GET     /races/:id               controllers.RaceController.get(id: Long)
+POST    /races                   controllers.RaceController.add
+PUT     /races                   controllers.RaceController.update
+DELETE  /races/:id               controllers.RaceController.delete(id: Long)
+
+# origins
+GET     /origins                   controllers.OriginController.getAll
+GET     /origins/:id               controllers.OriginController.get(id: Long)
+POST    /origins                   controllers.OriginController.add
+#PUT     /origins/:id               controllers.OriginController.update(id: Long)
+DELETE  /origins/:id               controllers.OriginController.delete(id: Long)
+
+# classes
+GET     /classes                   controllers.ClassController.getAll
+GET     /classes/:id               controllers.ClassController.get(id: Long)
+POST    /classes                   controllers.ClassController.add
+PUT     /classes/:id               controllers.ClassController.update(id: Long)
+DELETE  /classes/:id               controllers.ClassController.delete(id: Long)
+
+# proficiencies
+GET     /proficiencies                   controllers.ProficiencyController.getAll
+GET     /proficiencies/:id               controllers.ProficiencyController.get(id: Long)
+POST    /proficiencies                   controllers.ProficiencyController.add
+PUT     /proficiencies/:id               controllers.ProficiencyController.update(id: Long)
+DELETE  /proficiencies/:id               controllers.ProficiencyController.delete(id: Long)
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
