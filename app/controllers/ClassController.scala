@@ -1,11 +1,11 @@
 package controllers
 
-import models.{Class, ClassRepository}
+import models.clazz.{Class, ClassRepository, ClassWithProficiencies}
 import play.api.libs.json.{JsError, JsValue, Json}
 import play.api.mvc._
 
 import javax.inject._
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ExecutionContext}
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -15,7 +15,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class ClassController @Inject()(classRepository: ClassRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
 
   def getAll: Action[AnyContent] = Action.async { implicit request =>
-    classRepository.getAll().map(classes => Ok(Json.toJson(classes)))
+    classRepository.getAll.map(classes => Ok(Json.toJson(classes)))
   }
 
   def get(id: Long): Action[AnyContent] = Action.async { implicit request =>
@@ -30,7 +30,7 @@ class ClassController @Inject()(classRepository: ClassRepository, cc: MessagesCo
   }
 
   def add(): Action[JsValue] = Action(parse.json) { request =>
-    val result = request.body.validate[Class]
+    val result = request.body.validate[ClassWithProficiencies]
 
     result.fold(
       errors => {

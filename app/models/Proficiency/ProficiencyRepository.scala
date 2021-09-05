@@ -1,4 +1,4 @@
-package models
+package models.proficiency
 
 import play.api.db.slick.DatabaseConfigProvider
 import slick.jdbc.JdbcProfile

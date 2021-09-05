@@ -1,5 +1,6 @@
-package models
+package models.origin
 
+import models.proficiency.ProficiencyTable
 import slick.jdbc.SQLiteProfile.api._
 
 class OriginProficiencyTable(tag: Tag) extends Table[OriginProficiency](tag, "origin_proficiency") {

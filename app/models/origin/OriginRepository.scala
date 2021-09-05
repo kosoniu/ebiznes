@@ -1,11 +1,11 @@
-package models
+package models.origin
 
+import models.proficiency.ProficiencyTable
 import play.api.db.slick.DatabaseConfigProvider
 import slick.jdbc.JdbcProfile
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
-import scala.util.Success
 
 @Singleton
 class OriginRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
@@ -59,11 +59,12 @@ class OriginRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(impli
       into { case (tuple, id) => OriginProficiency(id, tuple.originId, tuple.proficiencyId) }
     )
 
-    var tuples = newOrigin.proficiencies.map(proficiency => OriginProficiency(0, newOrigin.origin.id, proficiency.id))
-
     val action = for {
       addedOrigin <- writeOrigin += newOrigin.origin
-      tuples <- writeTuples ++= tuples
+      tuples <- {
+        var tuples = newOrigin.proficiencies.map(proficiency => OriginProficiency(0, addedOrigin.id, proficiency.id))
+        writeTuples ++= tuples
+      }
       proficiencies <- proficiency.filter(_.id.inSet(tuples.map(tuple => tuple.proficiencyId))).result
     } yield OriginWithProficiencies(addedOrigin, proficiencies)
 

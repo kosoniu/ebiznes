@@ -1,4 +1,4 @@
-package models
+package models.proficiency
 
 import play.api.libs.functional.syntax.{toFunctionalBuilderOps, unlift}
 import play.api.libs.json.{Reads, Writes, __}

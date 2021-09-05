@@ -1,4 +1,4 @@
-package models
+package models.proficiency
 
 import slick.jdbc.SQLiteProfile.api._
 

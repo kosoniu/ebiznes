@@ -1,6 +1,6 @@
 package controllers
 
-import models.{Origin, Race, RaceRepository}
+import models.race.{Race, RaceRepository, RaceWithFeatures}
 import play.api.libs.json.{JsError, JsValue, Json}
 
 import javax.inject._
@@ -8,10 +8,6 @@ import play.api.mvc._
 
 import scala.concurrent.{ExecutionContext, Future}
 
-/**
- * This controller creates an `Action` to handle HTTP requests to the
- * application's home page.
- */
 @Singleton
 class RaceController @Inject()(raceRepository: RaceRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
 
@@ -36,31 +32,34 @@ class RaceController @Inject()(raceRepository: RaceRepository, cc: MessagesContr
     }
   }
 
-  def add(): Action[JsValue] = Action(parse.json) { request =>
-    val result = request.body.validate[Race]
+  def add(): Action[JsValue] = Action.async(parse.json) { request =>
+    val result = request.body.validate[RaceWithFeatures]
+    var future: Future[RaceWithFeatures] = null
 
     result.fold(
       errors => {
         BadRequest(Json.obj("message" -> JsError.toJson(errors)))
       },
-      race => {
-        raceRepository.add(race)
-        Ok(Json.toJson(race))
-      }
+      race => future = raceRepository.add(race)
     )
+
+    future.map(result => Ok(Json.toJson(result)))
   }
 
-  def update(): Action[JsValue] = Action(parse.json) { request =>
+  def update(id: Long): Action[JsValue] = Action.async(parse.json) { request =>
     val result = request.body.validate[Race]
+    var future: Future[Race] = null
 
     result.fold(
       errors => {
         BadRequest(Json.obj("message" -> JsError.toJson(errors)))
       },
       race => {
-        raceRepository.update(race)
+        raceRepository.update(id, race)
         Ok(Json.toJson(race))
       }
     )
+
+    future.map(result => Ok(Json.toJson(result)))
   }
 }

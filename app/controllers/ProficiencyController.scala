@@ -1,6 +1,6 @@
 package controllers
 
-import models.{Proficiency, ProficiencyRepository}
+import models.proficiency.{Proficiency, ProficiencyRepository}
 import play.api.libs.json.{JsError, JsValue, Json}
 import play.api.mvc._
 
@@ -25,45 +25,37 @@ class ProficiencyController @Inject()(proficiencyRepository: ProficiencyReposito
     }
   }
 
-  def delete(id: Long): Action[JsValue] = Action(parse.json) { request =>
-    val result = request.body.validate[Proficiency]
-
-    result.fold(
-      errors => {
-        BadRequest(Json.obj("message" -> JsError.toJson(errors)))
-      },
-      data => {
-        proficiencyRepository.delete(id)
-        Ok(Json.toJson(data))
-      }
-    )
+  def delete(id: Long): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
+    proficiencyRepository.delete(id).map( _ => Redirect("/proficiencies"))
   }
 
-  def add(): Action[JsValue] = Action(parse.json) { request =>
+  def add(): Action[JsValue] = Action.async(parse.json) { request =>
     val result = request.body.validate[Proficiency]
 
+    var future: Future[Proficiency] = null
+
     result.fold(
-      errors => {
-        BadRequest(Json.obj("message" -> JsError.toJson(errors)))
-      },
-      data => {
-        proficiencyRepository.add(data)
-        Ok(Json.toJson(data))
-      }
+      errors => BadRequest(Json.obj("message" -> JsError.toJson(errors))),
+      proficiency => future = proficiencyRepository.add(proficiency)
     )
+
+    future.map(result => Ok(Json.toJson(result)))
+
   }
 
-  def update(id: Long): Action[JsValue] = Action(parse.json) { request =>
+  def update(id: Long): Action[JsValue] = Action.async(parse.json) { request =>
     val result = request.body.validate[Proficiency]
 
+    var future: Future[Proficiency] = null
+
     result.fold(
-      errors => {
-        BadRequest(Json.obj("message" -> JsError.toJson(errors)))
-      },
-      data => {
-        proficiencyRepository.update(id, data)
-        Ok(Json.toJson(data))
+      errors => BadRequest(Json.obj("message" -> JsError.toJson(errors))),
+      proficiency => {
+        proficiencyRepository.update(id, proficiency)
+        Ok(Json.toJson(proficiency))
       }
     )
+
+    future.map(result => Ok(Json.toJson(result)))
   }
 }

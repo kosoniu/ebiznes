@@ -8,24 +8,23 @@ CREATE TABLE "race" (
                         "description" TEXT NOT NULL
 );
 
-CREATE TABLE "class" (
-                       "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                       "name" VARCHAR NOT NULL,
-                       "description" TEXT NOT NULL,
-                       "health_points" INTEGER NOT NULL,
-                       "hit_dice" VARCHAR NOT NULL
+CREATE TABLE "race_feature" (
+                        "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                        "name" VARCHAR NOT NULL,
+                        "description" TEXT NOT NULL,
+                        "race_id" INTEGER NOT NULL
 );
 
 CREATE TABLE "origin" (
-                         "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                         "name" VARCHAR NOT NULL,
-                         "description" TEXT NOT NULL
+                     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                     "name" VARCHAR NOT NULL,
+                     "description" TEXT NOT NULL
 );
 
 CREATE TABLE "proficiency" (
-                           "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                           "name" VARCHAR NOT NULL,
-                           "type" INTEGER NOT NULL
+                       "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                       "name" VARCHAR NOT NULL,
+                       "type" INTEGER NOT NULL
 );
 
 CREATE TABLE "origin_proficiency" (
@@ -37,7 +36,8 @@ CREATE TABLE "origin_proficiency" (
 # --- !Downs
 
 DROP TABLE "race";
-DROP TABLE "class";
 DROP TABLE "origin";
 DROP TABLE "proficiency";
 DROP TABLE "origin_proficiency";
+DROP TABLE "race";
+DROP TABLE "race_feature";

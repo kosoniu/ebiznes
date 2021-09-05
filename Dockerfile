@@ -1,4 +1,5 @@
 FROM ubuntu:18.04
+ENV SBT_VERSION 1.4.8
 
 RUN apt update && apt install -y build-essential unzip git curl wget zip
 

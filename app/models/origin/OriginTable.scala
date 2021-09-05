@@ -1,4 +1,4 @@
-package models
+package models.origin
 
 import slick.jdbc.SQLiteProfile.api._
 

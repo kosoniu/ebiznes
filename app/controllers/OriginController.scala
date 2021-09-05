@@ -1,13 +1,11 @@
 package controllers
 
-import models.{Origin, OriginRepository, OriginWithProficiencies}
-import play.api.libs.json.{JsError, JsValue, Json}
+import models.origin.{OriginRepository, OriginWithProficiencies}
+import play.api.libs.json.{JsError, Json}
 import play.api.mvc._
 
 import javax.inject._
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, ExecutionContext, Future}
-import scala.util.{Failure, Success}
+import scala.concurrent.{ExecutionContext, Future}
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the

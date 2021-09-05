@@ -9,7 +9,7 @@ GET     /                           controllers.RaceController.index
 GET     /races                   controllers.RaceController.getAll
 GET     /races/:id               controllers.RaceController.get(id: Long)
 POST    /races                   controllers.RaceController.add
-PUT     /races                   controllers.RaceController.update
+PUT     /races/:id               controllers.RaceController.update(id: Long)
 DELETE  /races/:id               controllers.RaceController.delete(id: Long)
 
 # origins
@@ -33,6 +33,10 @@ POST    /proficiencies                   controllers.ProficiencyController.add
 PUT     /proficiencies/:id               controllers.ProficiencyController.update(id: Long)
 DELETE  /proficiencies/:id               controllers.ProficiencyController.delete(id: Long)
 
+# hero
+GET     /heroes                   controllers.HeroController.getAll
+POST    /heroes                   controllers.HeroController.add
+DELETE  /heroes/:id               controllers.HeroController.delete(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
