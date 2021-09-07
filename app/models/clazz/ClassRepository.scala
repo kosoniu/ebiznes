@@ -74,8 +74,8 @@ class ClassRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(implic
 
   def delete(id: Long): Future[Unit] = db.run(clazz.filter(_.id === id).delete).map(_ => ())
 
-  def update(id: Long, new_product: Class): Future[Unit] = {
-    val update: Class = new_product.copy(id)
+  def update(id: Long, newClass: Class): Future[Unit] = {
+    val update: Class = newClass.copy(id)
     db.run(clazz.filter(_.id === id).update(update)).map(_ => ())
   }
 

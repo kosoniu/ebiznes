@@ -73,15 +73,6 @@ class OriginRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(impli
 
   def delete(id: Long): Future[Unit] = db.run(origin.filter(_.id === id).delete).map(_ => ())
 
-//  def update(id: Long, updatedOrigin: OriginWithProficiencies): Future[OriginWithProficiencies] = {
-//
-//    val action = for {
-//      editedOrigin <- origin.filter(_.id === id).update(updatedOrigin.origin)
-//    } yield OriginWithProficiencies(editedOrigin, proficiencies)
-//
-//    db.run(action.transactionally)
-//  }
-
 }
 
 

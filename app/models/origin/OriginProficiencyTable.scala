@@ -14,8 +14,6 @@ class OriginProficiencyTable(tag: Tag) extends Table[OriginProficiency](tag, "or
 
   def proficiencyId = column[Long]("proficiency_id")
 
-//  def pk = primaryKey("pk_origin_proficiency", (originId, proficiencyId))
-
   def fk1 = foreignKey("origin_fk", originId ,origins)(origin => origin.id)
 
   def fk2 = foreignKey("proficiency_fk", proficiencyId, proficiencies)(proficiency => proficiency.id)

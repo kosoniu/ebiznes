@@ -41,15 +41,4 @@ class OriginController @Inject()(originRepository: OriginRepository, cc: Message
 
     future.map(result => Ok(Json.toJson(result)))
   }
-
-//  def update(id: Long): Action[JsValue] = Action(parse.json) { request =>
-//    val result = request.body.validate[OriginWithProficiencies]
-//
-//    var future: Future[OriginWithProficiencies] = null
-//
-//    result.fold(
-//      errors => BadRequest(Json.obj("message" -> JsError.toJson(errors))),
-//      origin => future = originRepository.update(id, origin)
-//    )
-//  }
 }

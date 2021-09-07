@@ -18,13 +18,6 @@ class HeroController @Inject()(heroRepository: HeroRepository, cc: MessagesContr
     heroRepository.getAll().map(heroes => Ok(Json.toJson(heroes)))
   }
 
-//  def get(id: Long): Action[AnyContent] = Action.async { implicit request =>
-//    classRepository.getByIdOption(id).map {
-//      case Some(p) => Ok(Json.toJson(p))
-//      case None => NoContent
-//    }
-//  }
-//
   def delete(id: Long): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
     heroRepository.delete(id).map( _ => Redirect("/heroes"))
   }
@@ -40,18 +33,5 @@ class HeroController @Inject()(heroRepository: HeroRepository, cc: MessagesContr
 
     future.map(result => Ok(Json.toJson(result)))
   }
-//
-//  def update(id: Long): Action[JsValue] = Action(parse.json) { request =>
-//    val result = request.body.validate[Class]
-//
-//    result.fold(
-//      errors => {
-//        BadRequest(Json.obj("message" -> JsError.toJson(errors)))
-//      },
-//      clazz => {
-//        classRepository.update(id, clazz)
-//        Ok(Json.toJson(clazz))
-//      }
-//    )
-//  }
+
 }
